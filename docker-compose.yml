@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  fuel-app:
+    build: .
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_USER: teslamate
+      DATABASE_PASS: ${DATABASE_PASS}
+      DATABASE_NAME: teslamate
+      DATABASE_HOST: database
+      FLASK_SECRET_KEY: ${FLASK_SECRET_KEY:-your-secret-key-here}
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - teslamate-network
+
+  # This is an example of how to integrate with your existing TeslaMate setup
+  # You should add this service to your existing TeslaMate docker-compose.yml
+  # and remove this section if you're using it with an existing TeslaMate installation
+
+networks:
+  teslamate-network:
+    external: true
+    # If you're integrating with existing TeslaMate, use the same network name
+    # that your TeslaMate setup uses (e.g., homelab-net)

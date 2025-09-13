@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuel Price Manager</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; background-color: #f4f4f9; color: #333; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 2em; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1, h2 { text-align: center; color: #555; }
+        form { display: flex; flex-direction: column; gap: 15px; margin-bottom: 2em; }
+        input { padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; }
+        button:hover { background-color: #0056b3; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .flash { padding: 1em; margin-bottom: 1em; border-radius: 4px; text-align: center; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fuel Price Manager</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        
+        <form action="/add" method="post">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+            
+            <label for="price_diesel">Diesel Price (€/L):</label>
+            <input type="number" id="price_diesel" name="price_diesel" step="0.001" min="0" required placeholder="e.g.: 1.659">
+            
+            <label for="price_gasoline">Gasoline Price (€/L):</label>
+            <input type="number" id="price_gasoline" name="price_gasoline" step="0.001" min="0" required placeholder="e.g.: 1.759">
+            
+            <button type="submit">Add Prices</button>
+        </form>
+        
+        <h2>Price History</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Diesel Price (€)</th>
+                    <th>Gasoline Price (€)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in prices %}
+                <tr>
+                    <td>{{ entry[0].strftime('%Y-%m-%d') }}</td>
+                    <td>{{ "%.3f"|format(entry[1]) if entry[1] is not none else 'N/A' }}</td>
+                    <td>{{ "%.3f"|format(entry[2]) if entry[2] is not none else 'N/A' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

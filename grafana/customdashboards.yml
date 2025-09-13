@@ -1,0 +1,21 @@
+# API Version of the config file.
+apiVersion: 1
+
+# List of dashboard providers.
+providers:
+  # Unique name for the provider.
+  - name: 'dashboards-personalizados'
+    # Organization ID, 1 is the default main org.
+    orgId: 1
+    # Folder name where the dashboards will appear in the Grafana UI.
+    folder: 'TeslaMate Personalizado'
+    # Type of the provider.
+    type: file
+    # Disables deletion of dashboards from the UI.
+    disableDeletion: false
+    # Allows dashboards to be updated from the UI.
+    editable: true
+    # Directory where Grafana will look for the JSON dashboard files.
+    # Esta ruta es DENTRO del contenedor de Grafana.
+    options:
+      path: /etc/grafana/provisioning/dashboards/dashboards-json

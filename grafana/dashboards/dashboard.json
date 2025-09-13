@@ -1,0 +1,842 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 36,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PC98BA2F4D77E1A42"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "max": 7000,
+          "min": 0,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "purple",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "currencyEUR"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "titleSize": 1
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PC98BA2F4D77E1A42"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT SUM(cost) AS \"Gasto Eléctrico\" FROM charging_processes WHERE $__timeFilter(start_date) AND cost IS NOT NULL",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Gasto Eléctrico",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PC98BA2F4D77E1A42"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "max": 7000,
+          "min": 0,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "currencyEUR"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^Gasto Diésel$/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PC98BA2F4D77E1A42"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH drives_with_fuel_cost AS (\n  SELECT\n    (d.distance / 100 * ${consumo_diesel:raw} * (SELECT price_diesel FROM fuel_prices fp WHERE fp.date <= d.start_date ORDER BY fp.date DESC LIMIT 1)) as diesel_cost\n  FROM\n    drives d\n  WHERE\n    $__timeFilter(d.start_date)\n)\nSELECT\n  SUM(diesel_cost) AS \"Gasto Diésel\"\nFROM drives_with_fuel_cost",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Gasto Diésel",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PC98BA2F4D77E1A42"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "max": 7000,
+          "min": 0,
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "semi-dark-green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "currencyEUR"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 0
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PC98BA2F4D77E1A42"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH drives_with_fuel_cost AS (\n  SELECT\n    (d.distance / 100 * ${consumo_gasolina:raw} * (SELECT price_gasoline FROM fuel_prices fp WHERE fp.date <= d.start_date ORDER BY fp.date DESC LIMIT 1)) as gasoline_cost\n  FROM\n    drives d\n  WHERE\n    $__timeFilter(d.start_date)\n)\nSELECT\n  SUM(gasoline_cost) AS \"Gasto Gasolina\"\nFROM drives_with_fuel_cost",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Gasto Gasolina",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PC98BA2F4D77E1A42"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyEUR"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": false
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "format": "time_series",
+          "rawQuery": true,
+          "rawSql": "WITH daily_drives AS (\n  SELECT\n    date_trunc('day', start_date) AS day,\n    SUM(distance) AS distance\n  FROM drives\n  WHERE $__timeFilter(start_date)\n  GROUP BY 1\n),\ndaily_charges AS (\n  SELECT\n    date_trunc('day', start_date) AS day,\n    SUM(cost) AS cost\n  FROM charging_processes\n  WHERE $__timeFilter(start_date) AND cost IS NOT NULL\n  GROUP BY 1\n)\nSELECT\n  dd.day AS \"time\",\n  SUM((dd.distance / 100 * ${consumo_diesel:raw} * (SELECT price_diesel FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1)) - COALESCE(dc.cost, 0)) OVER (ORDER BY dd.day) AS \"Ahorro vs Diésel\",\n  SUM((dd.distance / 100 * ${consumo_gasolina:raw} * (SELECT price_gasoline FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1)) - COALESCE(dc.cost, 0)) OVER (ORDER BY dd.day) AS \"Ahorro vs Gasolina\"\nFROM daily_drives dd\nLEFT JOIN daily_charges dc ON dd.day = dc.day\nWHERE dd.distance > 0\nORDER BY \"time\";",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Ahorro Acumulado",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PC98BA2F4D77E1A42"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "max": 5000,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": 0
+              },
+              {
+                "color": "orange",
+                "value": 0
+              },
+              {
+                "color": "green",
+                "value": 500
+              }
+            ]
+          },
+          "unit": "currencyEUR"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 4
+      },
+      "id": 4,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PC98BA2F4D77E1A42"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH drives_with_fuel_cost AS (\n  SELECT\n    (d.distance / 100 * ${consumo_diesel:raw} * (SELECT price_diesel FROM fuel_prices fp WHERE fp.date <= d.start_date ORDER BY fp.date DESC LIMIT 1)) as diesel_cost,\n    (d.distance / 100 * ${consumo_gasolina:raw} * (SELECT price_gasoline FROM fuel_prices fp WHERE fp.date <= d.start_date ORDER BY fp.date DESC LIMIT 1)) as gasoline_cost\n  FROM\n    drives d\n  WHERE\n    $__timeFilter(d.start_date)\n)\nSELECT\n  (SELECT SUM(diesel_cost) FROM drives_with_fuel_cost) - (SELECT SUM(cost) FROM charging_processes WHERE $__timeFilter(start_date) AND cost IS NOT NULL) AS \"Ahorro vs Diésel\",\n  (SELECT SUM(gasoline_cost) FROM drives_with_fuel_cost) - (SELECT SUM(cost) FROM charging_processes WHERE $__timeFilter(start_date) AND cost IS NOT NULL) AS \"Ahorro vs Gasolina\"",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Ahorro Total",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PC98BA2F4D77E1A42"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "€ / 100 km",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "currencyEUR"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 6
+      },
+      "id": 5,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "PC98BA2F4D77E1A42"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH totals AS (\n    SELECT\n        (SELECT SUM(distance) FROM drives WHERE $__timeFilter(start_date)) as total_distance,\n        (SELECT SUM(cost) FROM charging_processes WHERE $__timeFilter(start_date) AND cost IS NOT NULL) as total_electric_cost,\n        (SELECT AVG(price_diesel) FROM fuel_prices WHERE $__timeFilter(date)) as avg_diesel,\n        (SELECT AVG(price_gasoline) FROM fuel_prices WHERE $__timeFilter(date)) as avg_gasoline\n)\nSELECT 'Eléctrico' as metric, total_electric_cost / total_distance * 100 as value FROM totals\nUNION ALL\nSELECT 'Diésel' as metric, ${consumo_diesel:raw} * avg_diesel as value FROM totals\nUNION ALL\nSELECT 'Gasolina' as metric, ${consumo_gasolina:raw} * avg_gasoline as value FROM totals",
+          "refId": "A"
+        }
+      ],
+      "title": "Coste por 100 km",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "PC98BA2F4D77E1A42"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Precio Diésel (€/L)"
+            },
+            "properties": [
+              {
+                "id": "decimals",
+                "value": 3
+              },
+              {
+                "id": "unit",
+                "value": "currencyEUR"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Distancia (km)"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "lengthkm"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Coste Eléctrico (€)"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyEUR"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Coste Diésel (€)"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyEUR"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Ahorro vs Diésel (€)"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyEUR"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "value",
+                  "type": "color-text"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Precio Gasolina (€/L)"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyEUR"
+              },
+              {
+                "id": "decimals",
+                "value": 3
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Coste Gasolina (€)"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyEUR"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Ahorro vs Gasolina (€)"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "currencyEUR"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "value",
+                  "type": "color-text"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "id": 2,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "12.1.1",
+      "targets": [
+        {
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH daily_drives AS (\n  SELECT\n    date_trunc('day', start_date) AS day,\n    SUM(distance) AS distance\n  FROM drives\n  WHERE $__timeFilter(start_date)\n  GROUP BY 1\n),\ndaily_charges AS (\n  SELECT\n    date_trunc('day', start_date) AS day,\n    SUM(cost) AS cost\n  FROM charging_processes\n  WHERE $__timeFilter(start_date) AND cost IS NOT NULL\n  GROUP BY 1\n)\nSELECT\n  dd.day AS \"Fecha\",\n  ROUND(dd.distance::numeric, 2) AS \"Distancia (km)\",\n  COALESCE(dc.cost, 0) AS \"Coste Eléctrico (€)\",\n  (SELECT price_diesel FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1) AS \"Precio Diésel (€/L)\",\n  ROUND((dd.distance / 100 * ${consumo_diesel:raw} * (SELECT price_diesel FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1))::numeric, 2) AS \"Coste Diésel (€)\",\n  ROUND(((dd.distance / 100 * ${consumo_diesel:raw} * (SELECT price_diesel FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1)) - COALESCE(dc.cost, 0))::numeric, 2) AS \"Ahorro vs Diésel (€)\",\n  (SELECT price_gasoline FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1) AS \"Precio Gasolina (€/L)\",\n  ROUND((dd.distance / 100 * ${consumo_gasolina:raw} * (SELECT price_gasoline FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1))::numeric, 2) AS \"Coste Gasolina (€)\",\n  ROUND(((dd.distance / 100 * ${consumo_gasolina:raw} * (SELECT price_gasoline FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1)) - COALESCE(dc.cost, 0))::numeric, 2) AS \"Ahorro vs Gasolina (€)\"\nFROM daily_drives dd\nLEFT JOIN daily_charges dc ON dd.day = dc.day\nWHERE dd.distance > 0\nORDER BY \"Fecha\" DESC;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Resumen Diario",
+      "type": "table"
+    }
+  ],
+  "preload": false,
+  "schemaVersion": 41,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "7.5",
+          "value": "7.5"
+        },
+        "name": "consumo_diesel",
+        "options": [
+          {
+            "selected": true,
+            "text": "7.5",
+            "value": "7.5"
+          }
+        ],
+        "query": "7.5",
+        "type": "custom"
+      },
+      {
+        "current": {
+          "text": "7.5",
+          "value": "7.5"
+        },
+        "name": "consumo_gasolina",
+        "options": [
+          {
+            "selected": true,
+            "text": "7.5",
+            "value": "7.5"
+          }
+        ],
+        "query": "7.5",
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1y",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Ahorro Eléctrico vs Combustión",
+  "uid": "92846a8b-7dd7-4094-a169-709927678742",
+  "version": 2
+}
