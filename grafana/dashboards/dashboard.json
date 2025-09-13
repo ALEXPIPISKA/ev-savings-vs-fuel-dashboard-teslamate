@@ -85,7 +85,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT SUM(cost) AS \"Gasto Eléctrico\" FROM charging_processes WHERE $__timeFilter(start_date) AND cost IS NOT NULL",
+          "rawSql": "SELECT SUM(cost) AS \"Electric Cost\" FROM charging_processes WHERE $__timeFilter(start_date) AND cost IS NOT NULL",
           "refId": "A",
           "sql": {
             "columns": [
@@ -106,7 +106,7 @@
           }
         }
       ],
-      "title": "Gasto Eléctrico",
+      "title": "Electric Cost",
       "type": "stat"
     },
     {
@@ -153,7 +153,7 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "/^Gasto Diésel$/",
+          "fields": "/^Diesel Cost$/",
           "values": false
         },
         "showPercentChange": false,
@@ -170,7 +170,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "WITH drives_with_fuel_cost AS (\n  SELECT\n    (d.distance / 100 * ${consumo_diesel:raw} * (SELECT price_diesel FROM fuel_prices fp WHERE fp.date <= d.start_date ORDER BY fp.date DESC LIMIT 1)) as diesel_cost\n  FROM\n    drives d\n  WHERE\n    $__timeFilter(d.start_date)\n)\nSELECT\n  SUM(diesel_cost) AS \"Gasto Diésel\"\nFROM drives_with_fuel_cost",
+          "rawSql": "WITH drives_with_fuel_cost AS (\n  SELECT\n    (d.distance / 100 * ${consumo_diesel:raw} * (SELECT price_diesel FROM fuel_prices fp WHERE fp.date <= d.start_date ORDER BY fp.date DESC LIMIT 1)) as diesel_cost\n  FROM\n    drives d\n  WHERE\n    $__timeFilter(d.start_date)\n)\nSELECT\n  SUM(diesel_cost) AS \"Diesel Cost\"\nFROM drives_with_fuel_cost",
           "refId": "A",
           "sql": {
             "columns": [
@@ -191,7 +191,7 @@
           }
         }
       ],
-      "title": "Gasto Diésel",
+      "title": "Diesel Cost",
       "type": "stat"
     },
     {
@@ -255,7 +255,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "WITH drives_with_fuel_cost AS (\n  SELECT\n    (d.distance / 100 * ${consumo_gasolina:raw} * (SELECT price_gasoline FROM fuel_prices fp WHERE fp.date <= d.start_date ORDER BY fp.date DESC LIMIT 1)) as gasoline_cost\n  FROM\n    drives d\n  WHERE\n    $__timeFilter(d.start_date)\n)\nSELECT\n  SUM(gasoline_cost) AS \"Gasto Gasolina\"\nFROM drives_with_fuel_cost",
+          "rawSql": "WITH drives_with_fuel_cost AS (\n  SELECT\n    (d.distance / 100 * ${consumo_gasolina:raw} * (SELECT price_gasoline FROM fuel_prices fp WHERE fp.date <= d.start_date ORDER BY fp.date DESC LIMIT 1)) as gasoline_cost\n  FROM\n    drives d\n  WHERE\n    $__timeFilter(d.start_date)\n)\nSELECT\n  SUM(gasoline_cost) AS \"Gasoline Cost\"\nFROM drives_with_fuel_cost",
           "refId": "A",
           "sql": {
             "columns": [
@@ -276,7 +276,7 @@
           }
         }
       ],
-      "title": "Gasto Gasolina",
+      "title": "Gasoline Cost",
       "type": "stat"
     },
     {
@@ -368,7 +368,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "WITH daily_drives AS (\n  SELECT\n    date_trunc('day', start_date) AS day,\n    SUM(distance) AS distance\n  FROM drives\n  WHERE $__timeFilter(start_date)\n  GROUP BY 1\n),\ndaily_charges AS (\n  SELECT\n    date_trunc('day', start_date) AS day,\n    SUM(cost) AS cost\n  FROM charging_processes\n  WHERE $__timeFilter(start_date) AND cost IS NOT NULL\n  GROUP BY 1\n)\nSELECT\n  dd.day AS \"time\",\n  SUM((dd.distance / 100 * ${consumo_diesel:raw} * (SELECT price_diesel FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1)) - COALESCE(dc.cost, 0)) OVER (ORDER BY dd.day) AS \"Ahorro vs Diésel\",\n  SUM((dd.distance / 100 * ${consumo_gasolina:raw} * (SELECT price_gasoline FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1)) - COALESCE(dc.cost, 0)) OVER (ORDER BY dd.day) AS \"Ahorro vs Gasolina\"\nFROM daily_drives dd\nLEFT JOIN daily_charges dc ON dd.day = dc.day\nWHERE dd.distance > 0\nORDER BY \"time\";",
+          "rawSql": "WITH daily_drives AS (\n  SELECT\n    date_trunc('day', start_date) AS day,\n    SUM(distance) AS distance\n  FROM drives\n  WHERE $__timeFilter(start_date)\n  GROUP BY 1\n),\ndaily_charges AS (\n  SELECT\n    date_trunc('day', start_date) AS day,\n    SUM(cost) AS cost\n  FROM charging_processes\n  WHERE $__timeFilter(start_date) AND cost IS NOT NULL\n  GROUP BY 1\n)\nSELECT\n  dd.day AS \"time\",\n  SUM((dd.distance / 100 * ${consumo_diesel:raw} * (SELECT price_diesel FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1)) - COALESCE(dc.cost, 0)) OVER (ORDER BY dd.day) AS \"Savings vs Diesel\",\n  SUM((dd.distance / 100 * ${consumo_gasolina:raw} * (SELECT price_gasoline FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1)) - COALESCE(dc.cost, 0)) OVER (ORDER BY dd.day) AS \"Savings vs Gasoline\"\nFROM daily_drives dd\nLEFT JOIN daily_charges dc ON dd.day = dc.day\nWHERE dd.distance > 0\nORDER BY \"time\";",
           "refId": "A",
           "sql": {
             "columns": [
@@ -389,7 +389,7 @@
           }
         }
       ],
-      "title": "Ahorro Acumulado",
+      "title": "Cumulative Savings",
       "type": "timeseries"
     },
     {
@@ -459,7 +459,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "WITH drives_with_fuel_cost AS (\n  SELECT\n    (d.distance / 100 * ${consumo_diesel:raw} * (SELECT price_diesel FROM fuel_prices fp WHERE fp.date <= d.start_date ORDER BY fp.date DESC LIMIT 1)) as diesel_cost,\n    (d.distance / 100 * ${consumo_gasolina:raw} * (SELECT price_gasoline FROM fuel_prices fp WHERE fp.date <= d.start_date ORDER BY fp.date DESC LIMIT 1)) as gasoline_cost\n  FROM\n    drives d\n  WHERE\n    $__timeFilter(d.start_date)\n)\nSELECT\n  (SELECT SUM(diesel_cost) FROM drives_with_fuel_cost) - (SELECT SUM(cost) FROM charging_processes WHERE $__timeFilter(start_date) AND cost IS NOT NULL) AS \"Ahorro vs Diésel\",\n  (SELECT SUM(gasoline_cost) FROM drives_with_fuel_cost) - (SELECT SUM(cost) FROM charging_processes WHERE $__timeFilter(start_date) AND cost IS NOT NULL) AS \"Ahorro vs Gasolina\"",
+          "rawSql": "WITH drives_with_fuel_cost AS (\n  SELECT\n    (d.distance / 100 * ${consumo_diesel:raw} * (SELECT price_diesel FROM fuel_prices fp WHERE fp.date <= d.start_date ORDER BY fp.date DESC LIMIT 1)) as diesel_cost,\n    (d.distance / 100 * ${consumo_gasolina:raw} * (SELECT price_gasoline FROM fuel_prices fp WHERE fp.date <= d.start_date ORDER BY fp.date DESC LIMIT 1)) as gasoline_cost\n  FROM\n    drives d\n  WHERE\n    $__timeFilter(d.start_date)\n)\nSELECT\n  (SELECT SUM(diesel_cost) FROM drives_with_fuel_cost) - (SELECT SUM(cost) FROM charging_processes WHERE $__timeFilter(start_date) AND cost IS NOT NULL) AS \"Savings vs Diesel\",\n  (SELECT SUM(gasoline_cost) FROM drives_with_fuel_cost) - (SELECT SUM(cost) FROM charging_processes WHERE $__timeFilter(start_date) AND cost IS NOT NULL) AS \"Savings vs Gasoline\"",
           "refId": "A",
           "sql": {
             "columns": [
@@ -480,7 +480,7 @@
           }
         }
       ],
-      "title": "Ahorro Total",
+      "title": "Total Savings",
       "type": "gauge"
     },
     {
@@ -571,11 +571,11 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "WITH totals AS (\n    SELECT\n        (SELECT SUM(distance) FROM drives WHERE $__timeFilter(start_date)) as total_distance,\n        (SELECT SUM(cost) FROM charging_processes WHERE $__timeFilter(start_date) AND cost IS NOT NULL) as total_electric_cost,\n        (SELECT AVG(price_diesel) FROM fuel_prices WHERE $__timeFilter(date)) as avg_diesel,\n        (SELECT AVG(price_gasoline) FROM fuel_prices WHERE $__timeFilter(date)) as avg_gasoline\n)\nSELECT 'Eléctrico' as metric, total_electric_cost / total_distance * 100 as value FROM totals\nUNION ALL\nSELECT 'Diésel' as metric, ${consumo_diesel:raw} * avg_diesel as value FROM totals\nUNION ALL\nSELECT 'Gasolina' as metric, ${consumo_gasolina:raw} * avg_gasoline as value FROM totals",
+          "rawSql": "WITH totals AS (\n    SELECT\n        (SELECT SUM(distance) FROM drives WHERE $__timeFilter(start_date)) as total_distance,\n        (SELECT SUM(cost) FROM charging_processes WHERE $__timeFilter(start_date) AND cost IS NOT NULL) as total_electric_cost,\n        (SELECT AVG(price_diesel) FROM fuel_prices WHERE $__timeFilter(date)) as avg_diesel,\n        (SELECT AVG(price_gasoline) FROM fuel_prices WHERE $__timeFilter(date)) as avg_gasoline\n)\nSELECT 'Electric' as metric, total_electric_cost / total_distance * 100 as value FROM totals\nUNION ALL\nSELECT 'Diesel' as metric, ${consumo_diesel:raw} * avg_diesel as value FROM totals\nUNION ALL\nSELECT 'Gasoline' as metric, ${consumo_gasolina:raw} * avg_gasoline as value FROM totals",
           "refId": "A"
         }
       ],
-      "title": "Coste por 100 km",
+      "title": "Cost per 100 km",
       "type": "barchart"
     },
     {
@@ -639,7 +639,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Coste Eléctrico (€)"
+              "options": "Electric Cost (€)"
             },
             "properties": [
               {
@@ -671,7 +671,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Ahorro vs Diésel (€)"
+              "options": "Savings vs Diesel (€)"
             },
             "properties": [
               {
@@ -722,7 +722,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Ahorro vs Gasolina (€)"
+              "options": "Savings vs Gasoline (€)"
             },
             "properties": [
               {
@@ -766,7 +766,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "WITH daily_drives AS (\n  SELECT\n    date_trunc('day', start_date) AS day,\n    SUM(distance) AS distance\n  FROM drives\n  WHERE $__timeFilter(start_date)\n  GROUP BY 1\n),\ndaily_charges AS (\n  SELECT\n    date_trunc('day', start_date) AS day,\n    SUM(cost) AS cost\n  FROM charging_processes\n  WHERE $__timeFilter(start_date) AND cost IS NOT NULL\n  GROUP BY 1\n)\nSELECT\n  dd.day AS \"Fecha\",\n  ROUND(dd.distance::numeric, 2) AS \"Distancia (km)\",\n  COALESCE(dc.cost, 0) AS \"Coste Eléctrico (€)\",\n  (SELECT price_diesel FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1) AS \"Precio Diésel (€/L)\",\n  ROUND((dd.distance / 100 * ${consumo_diesel:raw} * (SELECT price_diesel FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1))::numeric, 2) AS \"Coste Diésel (€)\",\n  ROUND(((dd.distance / 100 * ${consumo_diesel:raw} * (SELECT price_diesel FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1)) - COALESCE(dc.cost, 0))::numeric, 2) AS \"Ahorro vs Diésel (€)\",\n  (SELECT price_gasoline FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1) AS \"Precio Gasolina (€/L)\",\n  ROUND((dd.distance / 100 * ${consumo_gasolina:raw} * (SELECT price_gasoline FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1))::numeric, 2) AS \"Coste Gasolina (€)\",\n  ROUND(((dd.distance / 100 * ${consumo_gasolina:raw} * (SELECT price_gasoline FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1)) - COALESCE(dc.cost, 0))::numeric, 2) AS \"Ahorro vs Gasolina (€)\"\nFROM daily_drives dd\nLEFT JOIN daily_charges dc ON dd.day = dc.day\nWHERE dd.distance > 0\nORDER BY \"Fecha\" DESC;",
+          "rawSql": "WITH daily_drives AS (\n  SELECT\n    date_trunc('day', start_date) AS day,\n    SUM(distance) AS distance\n  FROM drives\n  WHERE $__timeFilter(start_date)\n  GROUP BY 1\n),\ndaily_charges AS (\n  SELECT\n    date_trunc('day', start_date) AS day,\n    SUM(cost) AS cost\n  FROM charging_processes\n  WHERE $__timeFilter(start_date) AND cost IS NOT NULL\n  GROUP BY 1\n)\nSELECT\n  dd.day AS \"Date\",\n  ROUND(dd.distance::numeric, 2) AS \"Distance (km)\",\n  COALESCE(dc.cost, 0) AS \"Electric Cost (€)\",\n  (SELECT price_diesel FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1) AS \"Diesel Price (€/L)\",\n  ROUND((dd.distance / 100 * ${consumo_diesel:raw} * (SELECT price_diesel FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1))::numeric, 2) AS \"Diesel Cost (€)\",\n  ROUND(((dd.distance / 100 * ${consumo_diesel:raw} * (SELECT price_diesel FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1)) - COALESCE(dc.cost, 0))::numeric, 2) AS \"Savings vs Diesel (€)\",\n  (SELECT price_gasoline FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1) AS \"Gasoline Price (€/L)\",\n  ROUND((dd.distance / 100 * ${consumo_gasolina:raw} * (SELECT price_gasoline FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1))::numeric, 2) AS \"Gasoline Cost (€)\",\n  ROUND(((dd.distance / 100 * ${consumo_gasolina:raw} * (SELECT price_gasoline FROM fuel_prices fp WHERE fp.date <= dd.day ORDER BY fp.date DESC LIMIT 1)) - COALESCE(dc.cost, 0))::numeric, 2) AS \"Savings vs Gasoline (€)\"\nFROM daily_drives dd\nLEFT JOIN daily_charges dc ON dd.day = dc.day\nWHERE dd.distance > 0\nORDER BY \"Date\" DESC;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -787,7 +787,7 @@
           }
         }
       ],
-      "title": "Resumen Diario",
+      "title": "Daily Summary",
       "type": "table"
     }
   ],
@@ -836,7 +836,7 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Ahorro Eléctrico vs Combustión",
+  "title": "Electric vs Fuel Savings",
   "uid": "92846a8b-7dd7-4094-a169-709927678742",
   "version": 2
 }
