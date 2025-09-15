@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 36,
+  "id": 27,
   "links": [],
   "panels": [
     {
@@ -611,7 +611,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Precio Diésel (€/L)"
+              "options": "Diesel Price (€/L)"
             },
             "properties": [
               {
@@ -694,7 +694,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Precio Gasolina (€/L)"
+              "options": "Gasoline Price (€/L)"
             },
             "properties": [
               {
@@ -710,7 +710,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Coste Gasolina (€)"
+              "options": "Gasoline Cost (€)"
             },
             "properties": [
               {
@@ -838,5 +838,5 @@
   "timezone": "browser",
   "title": "Electric vs Fuel Savings",
   "uid": "92846a8b-7dd7-4094-a169-709927678742",
-  "version": 2
+  "version": 22
 }
